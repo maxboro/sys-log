@@ -1,3 +1,5 @@
+local socket = require("socket")
+
 -- CPU utilization in %
 function get_cpu()
     local handle = io.popen("top -bn1 | grep 'Cpu(s)' | awk '{print $2 + $4}'")
@@ -39,7 +41,7 @@ function main()
     while (true)
     do
         exec_cycle_of_logging()
-        os.execute("sleep 1")
+        socket.sleep(1)
     end
 end
 
