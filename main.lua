@@ -26,10 +26,23 @@ function get_metric_values()
     return metrics
 end
 
+function clean_logfile()
+    local logfile = io.open("logfile.log", "w")
+    logfile:close(logfile)
+end
+
+function write_to_logfile(line)
+    local logfile = io.open("logfile.log", "a")
+    logfile:write(line.."\n")
+    logfile:close()
+end
+
 function log(metrics)
     local metrics_string = string.format("CPU Utilization: %s%%, RAM Utilization: %s MB", metrics.cpu_utilization, metrics.ram_utilization)
     local timestamp = os.date().." | "
-    print(timestamp..metrics_string)
+    local logline = timestamp..metrics_string
+    print(logline)
+    write_to_logfile(logline)
 end
 
 function exec_cycle_of_logging()
@@ -38,6 +51,7 @@ function exec_cycle_of_logging()
 end
 
 function main()
+    clean_logfile()
     while (true)
     do
         exec_cycle_of_logging()
