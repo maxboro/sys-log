@@ -33,6 +33,7 @@ This project requires the following dependencies:
 
 - **Lua 5.x** (tested with Lua 5.4.7)
 - **LuaSocket**: A Lua library for networking and utility functions
+- **LuaFileSystem**: A Lua library developed to complement the set of functions related to file systems
 
 ### Installation Instructions
 
@@ -41,4 +42,5 @@ On Ubuntu/Debian:
 ```bash
 sudo apt update
 sudo apt install lua5.3 luarocks
+sudo apt-get install lua-filesystem
 ```

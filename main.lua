@@ -1,4 +1,21 @@
 local socket = require("socket")
+local lfs = require("lfs")
+
+-- Create a directory if it doesn't exist
+local function create_directory_if_not_exists(dir)
+    local attr = lfs.attributes(dir)
+    if not attr then
+        -- Directory does not exist, create it
+        local success, err = lfs.mkdir(dir)
+        if success then
+            print("Directory created:", dir)
+        else
+            print("Failed to create directory:", err)
+        end
+    else
+        print("Directory already exists:", dir)
+    end
+end
 
 -- CPU utilization in %
 function get_cpu()
@@ -58,6 +75,7 @@ function get_logfile_dest()
 end
 
 function main()
+    create_directory_if_not_exists("logs")
     local logfile_dest = get_logfile_dest()
     clean_logfile(logfile_dest)
     while (true)
