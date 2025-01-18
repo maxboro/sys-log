@@ -6,6 +6,11 @@ Metrics tracked:
 - CPU utilization
 - RAM used
 
+## How to run
+```bash
+lua main.lua
+```
+
 ## Example
 ```terminal
 Sat Jan 18 13:23:45 2025 | CPU Utilization: 1.7%, RAM Utilization: 533 MB
