@@ -25,8 +25,9 @@ function get_metric_values()
 end
 
 function log(metrics)
-    logged_line = string.format("CPU Utilization: %s%%, RAM Utilization: %s MB", metrics.cpu_utilization, metrics.ram_utilization)
-    print(logged_line)
+    local metrics_string = string.format("CPU Utilization: %s%%, RAM Utilization: %s MB", metrics.cpu_utilization, metrics.ram_utilization)
+    local timestamp = os.date().." | "
+    print(timestamp..metrics_string)
 end
 
 function exec_cycle_of_logging()
