@@ -43,13 +43,21 @@ function get_metric_values()
     return metrics
 end
 
-function clean_logfile(logfile_dest)
-    local logfile = io.open(logfile_dest, "w")
-    logfile:close(logfile)
+function write_to_logfile(logfile_dest, line)
+    local logfile = io.open(logfile_dest..".log", "a")
+    logfile:write(line.."\n")
+    logfile:close()
 end
 
-function write_to_logfile(logfile_dest, line)
-    local logfile = io.open(logfile_dest, "a")
+function write_header_to_csvlogfile(logfile_dest)
+    local logfile = io.open(logfile_dest..".csv", "a")
+    local line_header = "timestamp;cpu_utilization;ram_utilization"
+    logfile:write(line_header.."\n")
+    logfile:close()
+end
+
+function write_to_csvlogfile(logfile_dest, line)
+    local logfile = io.open(logfile_dest..".csv", "a")
     logfile:write(line.."\n")
     logfile:close()
 end
@@ -60,6 +68,9 @@ function log(logfile_dest, metrics)
     local logline = timestamp..metrics_string
     print(logline)
     write_to_logfile(logfile_dest, logline)
+
+    local logline_csv = os.time()..";"..metrics.cpu_utilization..";"..metrics.ram_utilization
+    write_to_csvlogfile(logfile_dest, logline_csv)
 end
 
 function exec_cycle_of_logging(logfile_dest)
@@ -68,16 +79,17 @@ function exec_cycle_of_logging(logfile_dest)
 end
 
 function get_logfile_dest()
-    local logfile_name = "logfile_"..os.date("%Y-%m-%d__%H-%M-%S")..".log"
+    local logfile_name = "logfile_"..os.date("%Y-%m-%d__%H-%M-%S")
     local logfile_dest = "./logs/"..logfile_name
-    print("Log will be saved to "..logfile_dest)
+    print("Log will be saved to ./logs/ as "..logfile_name)
     return logfile_dest
 end
 
 function main()
     create_directory_if_not_exists("logs")
     local logfile_dest = get_logfile_dest()
-    clean_logfile(logfile_dest)
+    write_header_to_csvlogfile(logfile_dest)
+
     while (true)
     do
         exec_cycle_of_logging(logfile_dest)
